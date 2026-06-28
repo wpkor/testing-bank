@@ -4,13 +4,24 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.chrome.options import Options
+import os
 
 class TestBank:
 
     @pytest.fixture
     def driver(self):
-        # Просто создаем драйвер без всяких опций
-        driver = webdriver.Chrome()
+        options = Options()
+        
+        if os.getenv('GITHUB_ACTIONS') == 'true':
+            options.add_argument('--headless')
+            options.add_argument('--no-sandbox')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--window-size=1920,1080')
+            options.binary_location = '/usr/bin/google-chrome'
+        
+        driver = webdriver.Chrome(options=options)
         driver.get('http://localhost:8000/?balance=30000&reserved=20001')
         yield driver
         driver.quit()
