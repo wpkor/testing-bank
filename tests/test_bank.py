@@ -116,6 +116,5 @@ class TestBank:
         amount_input.clear()
         amount_input.send_keys('150')
         
-        # Проверяем, что комиссия = 15 (должна быть, но её нет — это баг)
         commission_text = driver.find_element(By.XPATH, "//*[contains(text(), 'Комиссия')]").text
         assert 'Комиссия: 15' in commission_text, f'Баг! Комиссия должна быть 15, а не 10! Текст: {commission_text}'
