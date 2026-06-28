@@ -9,6 +9,7 @@ class TestBank:
 
     @pytest.fixture
     def driver(self):
+        # Просто создаем драйвер без всяких опций
         driver = webdriver.Chrome()
         driver.get('http://localhost:8000/?balance=30000&reserved=20001')
         yield driver
